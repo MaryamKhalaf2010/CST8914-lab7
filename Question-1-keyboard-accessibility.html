@@ -20,13 +20,16 @@ body {
   margin: 30px; /* bottom = newsletter height */
   font-family: Lato, sans-serif;
 }
-
+/* Visual cues for interactive components in focus */
 a{
   color: #006b3a;
+  outline: 2px solid transparent;
 }
-main a{
-  outline: none;
-}
+/* remove outline none because it disaple the focus indicator */
+/* Custom new focus indicator for links */
+    a:focus {
+      outline: 2px solid #006b3a;
+    }
 h2 {
   margin-top: 0;
 }
@@ -171,9 +174,9 @@ article p {
 .three-col .columns article:last-child {
   margin-right: 0;
 }
-
+/* Newsletter anchored at the bottom, but ordered last in the DOM structure */
 .newsletter {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   height: 60px;
@@ -203,13 +206,16 @@ article p {
       <h1 class="logo">The Funion</h1>
       
       <!-- Maybe this could be improved with aria-activedescendant later? -->
-      <nav class="menu">
-        <a href="#">Home</a>
-        <a href="#">Politics</a>
-        <a href="#" tabindex="-1">Business</a>
-        <a href="#">Entertainment</a>
-        <a href="#">Sports</a>
-        <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
+      <!-- Added aria-activedescendant to resolve the fast-pass error -->
+
+      <nav class="menu" aria-activedescendant="">
+        <a href="#" id="link-to-home" >Home</a>
+        <a href="#" id="link-to-Politics" >Politics</a>
+         <!-- Removed tabindex="-1" from the Business link to make it focusable -->
+        <a href="#" id="link-to-Business">Business</a>
+        <a href="#" id="link-to-Entertainment" >Entertainment</a>
+        <a href="#" id="link-to-Sports" >Sports</a>
+        <a href="#" id="link-to-search" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
 
       </nav>
     </div>
@@ -239,11 +245,13 @@ article p {
     <div class="side-by-side">
       <div class="column">
         <div class="tier-header">
-          <h2 tabindex="0">In the news</h2>
+          <!-- Removed tabindex="0" from h2 since it’s not a focusable element -->
+          <h2 >In the news</h2>
         </div>
         <article>
           <h3 class="headline">Bee wonders if maybe everyone else is a drone and he's the only one who has it "figured out."</h3>
-          <p><a href="#" tabindex="1"><b>Read More</b></a></p>
+          <!-- Links are inherently focusable and should adhere to the document's tab order - removed tabindex -->
+          <p><a href="#" ><b>Read More</b></a></p>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/bee.jpg?raw=true" alt="A bee on top of a flower" />
         </article>
       </div>
@@ -286,10 +294,19 @@ article p {
     </div>
     
   </main>
-  <!--   stuff can be added here :)
-  <footer>
+  <!--   stuff can be added here :)-->
+  <!-- Relocated the newsletter form to a more appropriate position :) -->
+ <footer>
+    <div class="newsletter">
+      <div class="container">
+        <h3>Like the Funion? Consider joining our newsletter!</h3>
+        <input type="text">
+      <!-- Removed onfocus attribute to prevent unexpected behavior -->
+        <button type="button">Sign up</button></div>
+        
+      </div>
+    </div>
   </footer>
-  -->
   
   <script>
     function getFocus() {
